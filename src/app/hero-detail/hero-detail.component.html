@@ -1,0 +1,19 @@
+<mat-card>
+  <div *ngIf="hero">
+    <div class="mat-title">{{heroName}} Details</div>
+
+    <div class="detail-container">
+      <div><label>Id: </label>{{hero.id}}</div>
+
+      <br/>
+
+      <mat-form-field class="input-half-width">
+        <input matInput [(ngModel)]="hero.name" placeholder="name" autofocus>
+      </mat-form-field>
+    </div>
+
+    <button mat-raised-button class="action-button" (click)="save();">Save</button>
+    <button mat-raised-button class="action-button" (click)="goBack();">Cancel</button>
+
+  </div>
+</mat-card>

@@ -1,0 +1,29 @@
+<div>
+
+  <div>
+    <form class="new-hero-form">
+      <mat-form-field class="input-full-width">
+        <input matInput #heroName placeholder="Hero name" [formControl]="heroFormControl"
+               [errorStateMatcher]="matcher">
+        <mat-error *ngIf="heroFormControl.hasError('required')">
+          Hero name is <strong>required</strong>
+        </mat-error>
+      </mat-form-field>
+
+      <button mat-raised-button class="add-button" (click)="add(heroName.value); heroName.value=''">Add</button>
+    </form>
+  </div>
+
+  <div>
+    <mat-card>
+      <mat-nav-list>
+        <mat-list-item *ngFor="let hero of heroes">
+          <a matLine routerLink="/detail/{{hero.id}}">{{ hero.name }}</a>
+          <button mat-icon-button title="delete hero" (click)="delete(hero)">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </mat-list-item>
+      </mat-nav-list>
+    </mat-card>
+  </div>
+</div>
