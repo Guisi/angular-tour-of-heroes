@@ -3,6 +3,8 @@ import { Hero } from '../hero';
 import { HeroService } from '../hero.service';
 import {FormControl, FormGroupDirective, NgForm, Validators} from '@angular/forms';
 import {ErrorStateMatcher} from '@angular/material/core';
+import {MatDialog} from '@angular/material';
+import {ConfirmDialogComponent} from '../confirm-dialog/confirm-dialog.component';
 
 export class MyErrorStateMatcher implements ErrorStateMatcher {
   isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
@@ -30,7 +32,7 @@ export class HeroesComponent implements OnInit {
     this.heroService.getHeroes().subscribe(heroes => this.heroes = heroes);
   }
 
-  constructor(private heroService: HeroService) { }
+  constructor(private heroService: HeroService, public dialog: MatDialog) { }
 
   ngOnInit() {
     this.getHeroes();
@@ -40,16 +42,21 @@ export class HeroesComponent implements OnInit {
     name = name.trim();
     if (!name) { return; }
     this.heroService.addHero({ name } as Hero)
-      .subscribe(hero => {
-        if (hero) {
-          this.heroes.push(hero);
-        }
-      });
+      .subscribe(() => this.getHeroes() );
   }
 
   delete(hero: Hero): void {
-    this.heroes = this.heroes.filter(h => h !== hero);
-    this.heroService.deleteHero(hero).subscribe();
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      width: '300px',
+      data: 'Confirma a exclusão deste herói?'
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.heroes = this.heroes.filter(h => h !== hero);
+        this.heroService.deleteHero(hero).subscribe();
+      }
+    });
   }
 
 }

@@ -376,6 +376,8 @@ MIT
 
 @angular/material/autocomplete
 
+@angular/material/dialog
+
 @angular/material/sidenav
 
 @angular/material/toolbar

@@ -11,6 +11,7 @@ import {MatListModule} from '@angular/material/list';
 import {MatIconModule} from '@angular/material/icon';
 import {MatCardModule} from '@angular/material/card';
 import {MatButtonModule} from '@angular/material/button';
+import {MatDialogModule} from '@angular/material/dialog';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -24,6 +25,9 @@ import { MatToolbarModule, MatSidenavModule } from '@angular/material';
 import {MatDividerModule} from '@angular/material/divider';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import {ToastaModule} from 'ngx-toasta';
+import { ErrorHandler } from '@angular/core';
+import { GlobalErrorHandler } from './global-error-handler';
+import { ConfirmDialogComponent } from './confirm-dialog/confirm-dialog.component';
 
 @NgModule({
   declarations: [
@@ -32,7 +36,8 @@ import {ToastaModule} from 'ngx-toasta';
     HeroDetailComponent,
     DashboardComponent,
     HeroSearchComponent,
-    NavPageComponent
+    NavPageComponent,
+    ConfirmDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -49,6 +54,7 @@ import {ToastaModule} from 'ngx-toasta';
     MatButtonModule,
     MatDividerModule,
     MatAutocompleteModule,
+    MatDialogModule,
     ToastaModule.forRoot(),
 
     // The HttpClientInMemoryWebApiModule module intercepts HTTP requests
@@ -64,7 +70,13 @@ import {ToastaModule} from 'ngx-toasta';
 
     MatSidenavModule
   ],
-  providers: [],
-  bootstrap: [AppComponent]
+  providers: [
+    {
+      provide: ErrorHandler,
+      useClass: GlobalErrorHandler
+    }
+  ],
+  bootstrap: [AppComponent],
+  entryComponents: [ConfirmDialogComponent]
 })
 export class AppModule { }
